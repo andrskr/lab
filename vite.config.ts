@@ -9,8 +9,8 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   plugins: [
-    macrosPlugin(),
     cloudflare({ viteEnvironment: { name: 'ssr' } }),
+    macrosPlugin(),
     lingui(),
     tailwindcss(),
     reactRouter(),
