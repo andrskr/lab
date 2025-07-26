@@ -1,7 +1,7 @@
-import t from 'zod/mini';
+import { z } from 'zod/mini';
 
 /** The [BCP47](https://www.ietf.org/rfc/bcp/bcp47.txt) language code for the locale. */
-export const LocaleSchema = t.string().brand('Locale');
+export const LocaleSchema = z.string().brand('Locale');
 
 /** @see {@link LocaleSchema} */
-export type Locale = t.infer<typeof LocaleSchema>;
+export type Locale = z.infer<typeof LocaleSchema>;

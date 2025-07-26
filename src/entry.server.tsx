@@ -6,6 +6,7 @@ import type { AppLoadContext, EntryContext } from 'react-router';
 import { ServerRouter } from 'react-router';
 
 import { loadServerCatalog } from '~/app/i18n/i18n.server';
+import { createCSP } from '~/common/lib/csp';
 
 export default async function handleRequest(
   request: Request,
@@ -16,14 +17,18 @@ export default async function handleRequest(
 ) {
   let shellRendered = false;
   const userAgent = request.headers.get('user-agent');
+  const { nonce, header, NonceProvider } = createCSP();
 
   await loadServerCatalog(request);
 
   const body = await renderToReadableStream(
-    <I18nProvider i18n={i18n}>
-      <ServerRouter context={routerContext} url={request.url} />
-    </I18nProvider>,
+    <NonceProvider>
+      <I18nProvider i18n={i18n}>
+        <ServerRouter context={routerContext} url={request.url} nonce={nonce} />
+      </I18nProvider>
+    </NonceProvider>,
     {
+      nonce,
       onError(error: unknown) {
         responseStatusCode = 500;
         // Log streaming rendering errors from inside the shell.  Don't log
@@ -44,6 +49,8 @@ export default async function handleRequest(
   }
 
   responseHeaders.set('Content-Type', 'text/html');
+  responseHeaders.set('Content-Security-Policy', header);
+
   return new Response(body, {
     headers: responseHeaders,
     status: responseStatusCode,

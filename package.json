@@ -50,6 +50,7 @@
     "@react-router/node": "7.7.1",
     "@react-router/serve": "7.7.1",
     "accept-language-parser": "1.5.0",
+    "content-security-policy-builder": "2.3.0",
     "cross-env": "7.0.3",
     "cva": "1.0.0-beta.2",
     "intl-parse-accept-language": "1.0.0",

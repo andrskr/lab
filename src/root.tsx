@@ -5,6 +5,7 @@ import { Links } from '~/app/appearance/links';
 import { Meta } from '~/app/appearance/meta';
 import { useSyncLocaleCatalog } from '~/app/i18n/catalog';
 import { getI18nBootstrap } from '~/app/i18n/i18n.server';
+import { useNonce } from '~/common/lib/csp';
 
 import type { Route } from './+types/root';
 
@@ -29,6 +30,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 
 function Document({ children }: { children: ReactNode }) {
   const locale = useSyncLocaleCatalog();
+  const nonce = useNonce();
 
   /** TODO: direction */
 
@@ -40,8 +42,8 @@ function Document({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
-        <ScrollRestoration />
-        <Scripts />
+        <ScrollRestoration nonce={nonce} />
+        <Scripts nonce={nonce} />
       </body>
     </html>
   );
