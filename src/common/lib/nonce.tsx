@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+import { createContext, use } from 'react';
 import { z } from 'zod/mini';
 
 /**
@@ -72,4 +74,22 @@ export function generateNonce() {
   const randomValues = getRandomValues();
 
   return toHexString(randomValues) as Nonce;
+}
+
+const NonceContext = createContext<Nonce | undefined>(undefined);
+NonceContext.displayName = 'NonceContext';
+
+export function useNonce() {
+  return use(NonceContext);
+}
+
+interface NonceProviderProps {
+  nonce: Nonce;
+  children: ReactNode;
+}
+
+export function NonceProvider(props: NonceProviderProps) {
+  const { nonce, children } = props;
+
+  return <NonceContext value={nonce}>{children}</NonceContext>;
 }

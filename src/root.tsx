@@ -5,9 +5,10 @@ import { Links } from '~/app/appearance/links';
 import { Meta } from '~/app/appearance/meta';
 import { useSyncLocaleCatalog } from '~/app/i18n/catalog';
 import { getI18nBootstrap } from '~/app/i18n/i18n.server';
-import { useNonce } from '~/common/lib/csp';
+import { useNonce } from '~/common/lib/nonce';
 
 import type { Route } from './+types/root';
+import { isDevelopment } from './common/env';
 
 /** TODO: move it somewhere else? */
 declare module 'react' {
@@ -66,7 +67,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     message = error.status === 404 ? '404' : 'Error';
     details =
       error.status === 404 ? 'The requested page could not be found.' : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
+  } else if (isDevelopment && error && error instanceof Error) {
     details = error.message;
     stack = error.stack;
   }

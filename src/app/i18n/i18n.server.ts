@@ -1,5 +1,7 @@
 import { createCookie } from 'react-router';
 
+import { isProduction } from '~/common/env';
+
 import { loadCatalog } from './catalog';
 import { config, DEFAULT_LOCALE } from './config';
 import type { LanguageDetectorOptions } from './language-detector';
@@ -31,7 +33,7 @@ export const localeCookie = createCookie('lng', {
   path: '/',
   sameSite: 'lax',
   /** TODO: better env management */
-  secure: import.meta.env.NODE_ENV === 'production',
+  secure: isProduction,
   httpOnly: true,
 });
 

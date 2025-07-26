@@ -1,5 +1,7 @@
 import { useInsertionEffect } from 'react';
 
+import { isDevelopment } from '../env';
+
 import type { AnyFunction } from './any-function';
 import { useLazyRef } from './use-lazy-ref';
 
@@ -11,7 +13,7 @@ interface Stable<TCallback extends AnyFunction> {
 }
 
 function assertNotCalled() {
-  if (import.meta.env.NODE_ENV !== 'production') {
+  if (isDevelopment) {
     throw new Error('Can not call an event handler during rendering phase.');
   }
 }
