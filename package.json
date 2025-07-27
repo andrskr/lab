@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "@base-ui-components/react": "1.0.0-beta.1",
+    "@egjs/react-conveyer": "1.8.0",
     "@fontsource-variable/montserrat": "5.2.6",
     "@lingui/core": "5.3.3",
     "@lingui/detect-locale": "5.3.3",
