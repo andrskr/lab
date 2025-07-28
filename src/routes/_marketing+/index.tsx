@@ -37,41 +37,60 @@ interface NavigateOptions {
 
 function findTargetElement(target: NavigateTarget) {
   const elements = document.querySelectorAll<HTMLElement>('[data-scroller-item]');
-
   if (elements.length === 0) {
     return null;
   }
 
-  const elementsList = Array.from(elements);
+  let firstVisible: HTMLElement | null = null;
+  let lastVisible: HTMLElement | null = null;
+  let firstVisibleIndex = -1;
+  let lastVisibleIndex = -1;
 
-  if (target === 'end' || target === 'next') {
-    elementsList.reverse();
+  for (const [index, element] of elements.entries()) {
+    const isInvisible = element.dataset.visible === undefined;
+    const lastVisibleSet = lastVisible !== null;
+
+    if (isInvisible && lastVisibleSet) {
+      /** There is no point in continuing the loop if we already found all visible elements */
+      break;
+    }
+
+    if (isInvisible) {
+      continue;
+    }
+
+    if (firstVisible === null) {
+      firstVisible = element;
+      firstVisibleIndex = index;
+    }
+
+    lastVisible = element;
+    lastVisibleIndex = index;
   }
 
-  const targetElement = elementsList.find((element) => {
-    return element.dataset.visible === '';
-  });
+  const visibleCount = firstVisible ? lastVisibleIndex - firstVisibleIndex + 1 : 0;
 
-  if (!targetElement) {
-    return null;
+  /** If only one visible and targeting start/end, switch to previous/next */
+  let effectiveTarget = target;
+  if (visibleCount === 1 && (target === 'start' || target === 'end')) {
+    effectiveTarget = target === 'start' ? 'previous' : 'next';
   }
 
-  switch (target) {
-    case 'start':
+  switch (effectiveTarget) {
+    case 'start': {
+      return firstVisible;
+    }
     case 'end': {
-      return targetElement;
+      return lastVisible;
     }
-
-    case 'next':
+    case 'next': {
+      return elements[lastVisibleIndex + 1] ?? null;
+    }
     case 'previous': {
-      const index = elementsList.indexOf(targetElement);
-      const newTargetElement = elementsList.at(index - 1);
-
-      return newTargetElement ?? null;
+      return elements[firstVisibleIndex - 1] ?? null;
     }
-
     default: {
-      return targetElement;
+      return firstVisible;
     }
   }
 }
@@ -106,27 +125,34 @@ function Item(props: ItemProps) {
 }
 
 function scrollElement(scroller: HTMLElement, target: HTMLElement, options: NavigateOptions) {
-  // const { align = 'start' } = options;
-  // const { scrollLeft, clientWidth } = scroller;
-  // const targetRect = target.getBoundingClientRect();
-  // const scrollerRect = scroller.getBoundingClientRect();
-  // const targetLeft = targetRect.left - scrollerRect.left + scrollLeft;
-  // const targetRight = targetRect.right - scrollerRect.left + scrollLeft;
-  // const targetWidth = targetRect.width;
-  // let newScrollLeft = targetLeft;
-  // if (align === 'center') {
-  //   newScrollLeft = targetLeft - (clientWidth - targetWidth) / 2;
-  // } else if (align === 'end') {
-  //   newScrollLeft = targetRight - clientWidth;
-  // }
-  // // Ensure the new scroll position is within bounds
-  // newScrollLeft = Math.max(0, newScrollLeft);
-  // newScrollLeft = Math.min(newScrollLeft, scroller.scrollWidth - clientWidth);
-  // // Scroll to the new position
-  // scroller.scrollTo({
-  //   left: newScrollLeft,
-  //   behavior: 'smooth',
-  // });
+  const { align = 'start' } = options;
+
+  const scrollerRect = scroller.getBoundingClientRect();
+  const targetRect = target.getBoundingClientRect();
+
+  const offsetLeft = targetRect.left - scrollerRect.left + scroller.scrollLeft;
+
+  let scrollTo: number;
+
+  switch (align) {
+    case 'center': {
+      scrollTo = offsetLeft - scroller.clientWidth / 2 + target.clientWidth / 2;
+      break;
+    }
+    case 'end': {
+      scrollTo = offsetLeft - scroller.clientWidth + target.clientWidth;
+      break;
+    }
+    default: {
+      scrollTo = offsetLeft;
+      break;
+    }
+  }
+
+  scroller.scrollTo({
+    left: scrollTo,
+    behavior: 'smooth',
+  });
 }
 
 export default function Index() {
