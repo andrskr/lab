@@ -78,19 +78,20 @@ export default function Index() {
       <div
         ref={setScrollerElement}
         className={cx(
-          'h-[400px] snap-x snap-mandatory snap-always overflow-x-auto overflow-y-hidden overscroll-contain',
+          '[--scroller-items-gutter:theme(spacing.4)]',
+          '[--scroller-edge-gutter:theme(spacing.4)]',
+          '[--scroller-cols:calc((100%-(var(--scroller-visible-items)-1)*var(--scroller-items-gutter))_/_var(--scroller-visible-items))]',
+          'grid h-[400px] snap-always scroll-px-(--scroller-edge-gutter) auto-cols-(--scroller-cols) grid-flow-col gap-(--scroller-items-gutter) overflow-x-auto overflow-y-hidden overscroll-contain px-(--scroller-edge-gutter) not-data-animation:snap-x not-data-animation:snap-mandatory motion-safe:scroll-smooth',
         )}
       >
-        <div className="grid h-full min-w-fit grid-flow-col gap-4">
-          {Array.from({ length: 20 }, (_, index) => index).map((current) => (
-            <div
-              key={current}
-              className="grid h-full w-[300px] snap-start place-content-center border"
-            >
-              <div className="text-2xl font-bold">{current}</div>
-            </div>
-          ))}
-        </div>
+        {Array.from({ length: 20 }, (_, index) => index).map((current) => (
+          <div
+            key={current}
+            className="grid h-full w-[300px] snap-start place-content-center border"
+          >
+            <div className="text-2xl font-bold">{current}</div>
+          </div>
+        ))}
       </div>
 
       <div className="flex justify-center gap-4 py-2">
