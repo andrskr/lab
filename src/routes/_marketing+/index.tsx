@@ -21,8 +21,13 @@ export default function Index() {
     }
 
     const { scrollLeft, clientWidth, scrollWidth } = scrollerElement;
-    const canScrollNext = Math.ceil(scrollLeft + clientWidth) < scrollWidth;
-    const canScrollPrevious = scrollLeft > 0;
+
+    // Use a small tolerance to account for sub-pixel rendering and floating-point precision
+    const SCROLL_TOLERANCE = 1;
+
+    const canScrollNext = scrollLeft + clientWidth < scrollWidth - SCROLL_TOLERANCE;
+    const canScrollPrevious = scrollLeft > SCROLL_TOLERANCE;
+
     const previousTriggerElement = previousTrigger.current;
     const nextTriggerElement = nextTrigger.current;
 
