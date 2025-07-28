@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
-import { cx } from '~/common/lib/cx';
 
+import { cx } from '~/common/lib/cx';
 import { useDebouncedCallback } from '~/common/lib/flow-control';
 import { useEventCallback } from '~/common/lib/use-event-callback';
+import { useMeasure } from '~/common/lib/use-measure';
 import { useModernLayoutEffect } from '~/common/lib/use-modern-layout-effect';
-import { useResizeObserver } from '~/common/lib/use-resize-observer';
 
 const SCROLL_DEBOUNCE_TIME_MS = 100;
 
@@ -53,7 +53,7 @@ export default function Index() {
     trailing: true,
   });
 
-  useResizeObserver({
+  useMeasure({
     ref: scrollerElement,
     onResize: handleScrollStateSync,
   });
