@@ -1,12 +1,42 @@
+import type { ComponentProps } from 'react';
 import { useRef, useState } from 'react';
 
 import { cx } from '~/common/lib/cx';
+import { dataAttribute } from '~/common/lib/dom';
 import { useDebouncedCallback } from '~/common/lib/flow-control';
 import { useEventCallback } from '~/common/lib/use-event-callback';
+import { useInView } from '~/common/lib/use-in-view';
 import { useMeasure } from '~/common/lib/use-measure';
+import { useMergeRefs } from '~/common/lib/use-merge-refs';
 import { useModernLayoutEffect } from '~/common/lib/use-modern-layout-effect';
 
 const SCROLL_DEBOUNCE_TIME_MS = 100;
+
+interface ItemProps extends ComponentProps<'div'> {
+  scrollerElement: HTMLDivElement | null;
+}
+
+function Item(props: ItemProps) {
+  const { scrollerElement, children, ref } = props;
+  const {
+    ref: observerRef,
+    inView,
+    entry,
+  } = useInView({ root: scrollerElement, threshold: [0, 0.5, 1] });
+  const mergedRef = useMergeRefs(ref, observerRef);
+
+  return (
+    <div
+      data-scroller-item=""
+      data-intersection-ratio={entry?.intersectionRatio}
+      data-in-view={dataAttribute(inView)}
+      ref={mergedRef}
+      className="grid h-full w-[300px] snap-start place-content-center border"
+    >
+      <div className="text-2xl font-bold">{children}</div>
+    </div>
+  );
+}
 
 export default function Index() {
   const [scrollerElement, setScrollerElement] = useState<HTMLDivElement | null>(null);
@@ -90,12 +120,9 @@ export default function Index() {
         )}
       >
         {Array.from({ length: 20 }, (_, index) => index).map((current) => (
-          <div
-            key={current}
-            className="grid h-full w-[300px] snap-start place-content-center border"
-          >
-            <div className="text-2xl font-bold">{current}</div>
-          </div>
+          <Item key={current} scrollerElement={scrollerElement}>
+            {current}
+          </Item>
         ))}
       </div>
 
