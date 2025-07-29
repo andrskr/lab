@@ -265,13 +265,15 @@ export default function Index() {
     <div>
       <div
         ref={setScrollerElement}
+        data-scrollbar-hidden=""
         className={cx(
           '[--scroller-items-gutter:theme(spacing.4)]',
           '[--scroller-edge-gutter:theme(spacing.4)]',
           /** TODO: control using prop (e.g. align) */
           '[--scroller-item-align:start]',
           '[--scroller-cols:calc((100%-(var(--scroller-visible-items)-1)*var(--scroller-items-gutter))_/_var(--scroller-visible-items))]',
-          'grid h-[400px] snap-always scroll-px-(--scroller-edge-gutter) auto-cols-(--scroller-cols) grid-flow-col gap-(--scroller-items-gutter) overflow-x-auto overflow-y-hidden overscroll-contain px-(--scroller-edge-gutter) not-data-animation:snap-x not-data-animation:snap-mandatory motion-safe:scroll-smooth',
+          'data-scrollbar-hidden:scrollbar-hidden',
+          'relative grid h-[400px] snap-always scroll-px-(--scroller-edge-gutter) auto-cols-(--scroller-cols) grid-flow-col gap-(--scroller-items-gutter) overflow-x-auto overflow-y-hidden overscroll-contain px-(--scroller-edge-gutter) not-data-animation:snap-x not-data-animation:snap-mandatory motion-safe:scroll-smooth',
         )}
       >
         {Array.from({ length: 20 }, (_, index) => index).map((current) => (
