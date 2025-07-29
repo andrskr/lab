@@ -1,17 +1,17 @@
 import type { ComponentProps } from 'react';
 import { useRef, useState } from 'react';
 
+import { clamp } from '~/common/lib/clamp';
 import { cx } from '~/common/lib/cx';
 import { dataAttribute } from '~/common/lib/dom';
-import { useDebouncedCallback } from '~/common/lib/flow-control';
+import { useThrottledCallback } from '~/common/lib/flow-control';
 import { useEventCallback } from '~/common/lib/use-event-callback';
 import { useInView } from '~/common/lib/use-in-view';
 import { useMeasure } from '~/common/lib/use-measure';
 import { useMergeRefs } from '~/common/lib/use-merge-refs';
 import { useModernLayoutEffect } from '~/common/lib/use-modern-layout-effect';
-import { clamp } from '~/common/lib/clamp';
 
-const SCROLL_DEBOUNCE_TIME_MS = 100;
+const SCROLL_THROTTLE_TIME_MS = 100;
 
 /**
  * The target for navigation within the scroller.
@@ -179,6 +179,8 @@ function scrollElement(scroller: HTMLElement, target: HTMLElement, options: Navi
   });
 }
 
+const items = Array.from({ length: 20 }, (_, index) => index);
+
 export default function Index() {
   const [scrollerElement, setScrollerElement] = useState<HTMLDivElement | null>(null);
   const [canGoToNext, setCanGoToNext] = useState(true);
@@ -218,10 +220,9 @@ export default function Index() {
     setCanGoToNext(canScrollNext);
   });
 
-  const handleScrollStateSync = useDebouncedCallback(syncScrollState, {
-    wait: SCROLL_DEBOUNCE_TIME_MS,
+  const handleScrollStateSync = useThrottledCallback(syncScrollState, {
+    wait: SCROLL_THROTTLE_TIME_MS,
     leading: true,
-    trailing: true,
   });
 
   useMeasure({
@@ -278,7 +279,7 @@ export default function Index() {
           'relative grid h-[400px] snap-always scroll-px-(--scroller-edge-gutter) auto-cols-(--scroller-cols) grid-flow-col gap-(--scroller-items-gutter) overflow-x-auto overflow-y-hidden overscroll-contain px-(--scroller-edge-gutter) not-data-animation:snap-x not-data-animation:snap-mandatory motion-safe:scroll-smooth',
         )}
       >
-        {Array.from({ length: 20 }, (_, index) => index).map((current) => (
+        {items.map((current) => (
           <Item key={current} scrollerElement={scrollerElement}>
             {current}
           </Item>
