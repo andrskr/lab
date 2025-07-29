@@ -33,9 +33,18 @@ interface NavigateOptions {
    * Defaults to `start`.
    */
   align?: 'start' | 'center' | 'end';
+  /**
+   * The number of items next to the target to scroll to. For example, if `sibling` is `1`, the
+   * scroller will scroll to the item next to the target item. If `sibling` is `2`, it will scroll
+   * to the item two items after the target item. Negative values can be used to scroll to items
+   * before the target.
+   */
+  sibling?: number;
 }
 
-function findTargetElement(target: NavigateTarget) {
+function findTargetElement(target: NavigateTarget, options?: NavigateOptions) {
+  const { sibling = 0 } = options ?? {};
+
   const elements = document.querySelectorAll<HTMLElement>('[data-scroller-item]');
   if (elements.length === 0) {
     return null;
@@ -76,23 +85,33 @@ function findTargetElement(target: NavigateTarget) {
     effectiveTarget = target === 'start' ? 'previous' : 'next';
   }
 
+  let targetIndex: number | null = null;
   switch (effectiveTarget) {
     case 'start': {
-      return firstVisible;
+      targetIndex = firstVisibleIndex;
+      break;
     }
     case 'end': {
-      return lastVisible;
+      targetIndex = lastVisibleIndex;
+      break;
     }
     case 'next': {
-      return elements[lastVisibleIndex + 1] ?? null;
+      targetIndex = lastVisibleIndex + 1;
+      break;
     }
     case 'previous': {
-      return elements[firstVisibleIndex - 1] ?? null;
+      targetIndex = firstVisibleIndex - 1;
+      break;
     }
     default: {
-      return firstVisible;
+      targetIndex = firstVisibleIndex;
+      break;
     }
   }
+
+  const effectiveIndex = targetIndex + sibling;
+
+  return elements[effectiveIndex];
 }
 
 /** The minimum intersection ratio for an item to be considered visible. */
@@ -230,7 +249,7 @@ export default function Index() {
       return;
     }
 
-    const targetElement = findTargetElement(target);
+    const targetElement = findTargetElement(target, options);
 
     if (!targetElement) {
       return;
@@ -260,6 +279,16 @@ export default function Index() {
       <div className="flex justify-center gap-4 py-2">
         <button
           onClick={() => {
+            navigate('start', { align: 'start', sibling: -1 });
+          }}
+          disabled={!canGoToPrevious}
+          type="button"
+          className="rounded-md bg-blue-500 px-3 py-2 text-sm text-white disabled:opacity-50"
+        >
+          -1
+        </button>
+        <button
+          onClick={() => {
             navigate('start', { align: 'end' });
           }}
           disabled={!canGoToPrevious}
@@ -278,6 +307,17 @@ export default function Index() {
           className="rounded-md bg-blue-500 px-3 py-2 text-sm text-white disabled:opacity-50"
         >
           Go To Next
+        </button>
+
+        <button
+          onClick={() => {
+            navigate('start', { align: 'start', sibling: 1 });
+          }}
+          disabled={!canGoToNext}
+          type="button"
+          className="rounded-md bg-blue-500 px-3 py-2 text-sm text-white disabled:opacity-50"
+        >
+          +1
         </button>
       </div>
     </div>
