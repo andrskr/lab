@@ -9,6 +9,7 @@ import { useInView } from '~/common/lib/use-in-view';
 import { useMeasure } from '~/common/lib/use-measure';
 import { useMergeRefs } from '~/common/lib/use-merge-refs';
 import { useModernLayoutEffect } from '~/common/lib/use-modern-layout-effect';
+import { clamp } from '~/common/lib/clamp';
 
 const SCROLL_DEBOUNCE_TIME_MS = 100;
 
@@ -109,7 +110,8 @@ function findTargetElement(target: NavigateTarget, options?: NavigateOptions) {
     }
   }
 
-  const effectiveIndex = targetIndex + sibling;
+  const effectiveIndex =
+    visibleCount > 1 ? clamp(targetIndex + sibling, 0, elements.length - 1) : targetIndex;
 
   return elements[effectiveIndex];
 }
@@ -318,7 +320,7 @@ export default function Index() {
 
         <button
           onClick={() => {
-            navigate('start', { align: 'start', sibling: 1 });
+            navigate('end', { align: 'end', sibling: 1 });
           }}
           disabled={!canGoToNext}
           type="button"
