@@ -321,7 +321,7 @@ export default function Index() {
 
         <button
           onClick={() => {
-            navigate('end', { align: 'end', sibling: 1 });
+            navigate('start', { align: 'start', sibling: 1 });
           }}
           disabled={!canGoToNext}
           type="button"
