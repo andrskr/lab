@@ -1,26 +1,26 @@
-import { Scroller } from '~/common/ui/scroller';
-
-const items = Array.from({ length: 20 }, (_, index) => index);
+import { href, Link } from 'react-router';
 
 export default function Index() {
   return (
-    <Scroller.Root>
-      <Scroller.Track>
-        {items.map((current) => (
-          <Scroller.Item key={current}>{current}</Scroller.Item>
-        ))}
-      </Scroller.Track>
-
-      <div className="flex justify-center gap-4 py-2">
-        <Scroller.Previous options={{ align: 'start', sibling: -1 }}>-1</Scroller.Previous>
-        <Scroller.Previous>Go To Previous</Scroller.Previous>
-
-        <Scroller.Next>Go To Next</Scroller.Next>
-
-        <Scroller.Next target="start" options={{ align: 'start', sibling: 1 }}>
-          +1
-        </Scroller.Next>
-      </div>
-    </Scroller.Root>
+    <main className="py-layout-block container">
+      <h1 className="text-2xl font-bold">Lab Index</h1>
+      <p>
+        Select an example from the navigation below to explore different UI components and
+        experiments.
+      </p>
+      <nav className="py-4">
+        <h2 className="text-lg font-semibold">Scrollers</h2>
+        <ul className="list-disc pl-5">
+          <li>
+            <Link
+              to={href('/components/scroller/linear')}
+              className="text-blue-600 hover:underline"
+            >
+              Linear
+            </Link>
+          </li>
+        </ul>
+      </nav>
+    </main>
   );
 }
