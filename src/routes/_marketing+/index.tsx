@@ -12,25 +12,12 @@ export default function Index() {
       </Scroller.Track>
 
       <div className="flex justify-center gap-4 py-2">
-        <Scroller.Previous
-          options={{ align: 'start', sibling: -1 }}
-          className="rounded-md bg-blue-500 px-3 py-2 text-sm text-white disabled:opacity-50"
-        >
-          -1
-        </Scroller.Previous>
-        <Scroller.Previous className="rounded-md bg-blue-500 px-3 py-2 text-sm text-white disabled:opacity-50">
-          Go To Previous
-        </Scroller.Previous>
+        <Scroller.Previous options={{ align: 'start', sibling: -1 }}>-1</Scroller.Previous>
+        <Scroller.Previous>Go To Previous</Scroller.Previous>
 
-        <Scroller.Next className="rounded-md bg-blue-500 px-3 py-2 text-sm text-white disabled:opacity-50">
-          Go To Next
-        </Scroller.Next>
+        <Scroller.Next>Go To Next</Scroller.Next>
 
-        <Scroller.Next
-          target="start"
-          options={{ align: 'start', sibling: 1 }}
-          className="rounded-md bg-blue-500 px-3 py-2 text-sm text-white disabled:opacity-50"
-        >
+        <Scroller.Next target="start" options={{ align: 'start', sibling: 1 }}>
           +1
         </Scroller.Next>
       </div>

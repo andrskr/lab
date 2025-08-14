@@ -3,11 +3,12 @@ import { useCallback } from 'react';
 import { mergeProps } from '~/common/lib/merge-props';
 import { useLatestRef } from '~/common/lib/use-latest-ref';
 import { useRender } from '~/common/lib/use-render';
+import { Button } from '~/common/ui/button';
 
 import type { NavigateOptions, NavigateTarget } from '../root/root-context';
 import { useRootContext } from '../root/root-context';
 
-type NavigatorComponent = 'button';
+type NavigatorComponent = typeof Button;
 
 export namespace Navigator {
   export interface Props extends useRender.ComponentProps<NavigatorComponent> {
@@ -17,7 +18,7 @@ export namespace Navigator {
 }
 
 export function Navigator(props: Navigator.Props) {
-  const { render = <button type="button" />, target, options, ...restProps } = props;
+  const { render = <Button />, target, options, ...restProps } = props;
 
   const latestOptions = useLatestRef(options);
   const latestTarget = useLatestRef(target);
