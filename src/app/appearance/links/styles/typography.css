@@ -1,0 +1,73 @@
+@import '@fontsource-variable/montserrat/wght.css';
+
+/* See https://www.fluid-type-scale.com/calculate?minFontSize=16&minWidth=400&minRatio=1.25&maxFontSize=19&maxWidth=1920&maxRatio=1.333&steps=xs%2Csm%2Cbase%2Clg%2Cxl%2C2xl%2C3xl%2C4xl%2C5xl%2C6xl%2C7xl&baseStep=base&prefix=ds-text&useContainerWidth=true&includeFallbacks=true&useRems=true&remValue=16&decimals=2&previewFont=Inter&previewText=Almost+before+we+knew+it%2C+we+had+left+the+ground&previewWidth=1280 for customization */
+
+/* For browsers that support clamp and container queries */
+@supports (font-size: clamp(1rem, 1cqi, 1rem)) {
+  :root {
+    --ds-text-xs: clamp(0.64rem, 0.03cqi + 0.63rem, 0.67rem);
+    --ds-text-sm: clamp(0.8rem, 0.1cqi + 0.78rem, 0.89rem);
+    --ds-text-base: clamp(1rem, 0.2cqi + 0.95rem, 1.19rem);
+    --ds-text-lg: clamp(1.25rem, 0.35cqi + 1.16rem, 1.58rem);
+    --ds-text-xl: clamp(1.56rem, 0.58cqi + 1.42rem, 2.11rem);
+    --ds-text-2xl: clamp(1.95rem, 0.9cqi + 1.73rem, 2.81rem);
+    --ds-text-3xl: clamp(2.44rem, 1.38cqi + 2.1rem, 3.75rem);
+    --ds-text-4xl: clamp(3.05rem, 2.05cqi + 2.54rem, 5rem);
+    --ds-text-5xl: clamp(3.81rem, 3cqi + 3.07rem, 6.66rem);
+    --ds-text-6xl: clamp(4.77rem, 4.33cqi + 3.69rem, 8.88rem);
+    --ds-text-7xl: clamp(5.96rem, 6.19cqi + 4.41rem, 11.84rem);
+  }
+}
+
+/* For browsers that don't support clamp or container queries */
+@supports not (font-size: clamp(1rem, 1cqi, 1rem)) {
+  :root {
+    --ds-text-xs: 0.64rem;
+    --ds-text-sm: 0.8rem;
+    --ds-text-base: 1rem;
+    --ds-text-lg: 1.25rem;
+    --ds-text-xl: 1.56rem;
+    --ds-text-2xl: 1.95rem;
+    --ds-text-3xl: 2.44rem;
+    --ds-text-4xl: 3.05rem;
+    --ds-text-5xl: 3.81rem;
+    --ds-text-6xl: 4.77rem;
+    --ds-text-7xl: 5.96rem;
+  }
+
+  @media screen and (min-width: 1920px) {
+    :root {
+      --ds-text-xs: 0.67rem;
+      --ds-text-sm: 0.89rem;
+      --ds-text-base: 1.19rem;
+      --ds-text-lg: 1.58rem;
+      --ds-text-xl: 2.11rem;
+      --ds-text-2xl: 2.81rem;
+      --ds-text-3xl: 3.75rem;
+      --ds-text-4xl: 5rem;
+      --ds-text-5xl: 6.66rem;
+      --ds-text-6xl: 8.88rem;
+      --ds-text-7xl: 11.84rem;
+    }
+  }
+}
+
+:root {
+  --font-family: 'Montserrat Variable', sans-serif;
+}
+
+@theme inline {
+  --font-sans: var(--font-family);
+
+  --text-xs: var(--ds-text-xs);
+  --text-sm: var(--ds-text-sm);
+  --text-base: var(--ds-text-base);
+  --text-lg: var(--ds-text-lg);
+  --text-xl: var(--ds-text-xl);
+  --text-2xl: var(--ds-text-2xl);
+  --text-3xl: var(--ds-text-3xl);
+  --text-4xl: var(--ds-text-4xl);
+  --text-5xl: var(--ds-text-5xl);
+  --text-6xl: var(--ds-text-6xl);
+  --text-7xl: var(--ds-text-7xl);
+}

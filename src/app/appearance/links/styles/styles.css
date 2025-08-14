@@ -1,28 +1,12 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/montserrat/wght.css';
 
-:root {
-  /* Typography Start */
-  --font-family: 'Montserrat Variable', sans-serif;
-  /* Typography End */
-
-  /* Palette Start */
-
-  /* Palette End */
-
-  @media (prefers-color-scheme: dark) {
-    /* Palette Start */
-
-    /* Palette End */
-  }
-}
+@import './typography.css';
+@import './palette.css';
 
 @custom-variant orientation-vertical (&[data-orientation~="vertical"]);
 @custom-variant orientation-horizontal (&[data-orientation~="horizontal"]);
 
 @theme inline {
-  --font-sans: var(--font-family);
-
   --ease-in-quad: cubic-bezier(0.55, 0.085, 0.68, 0.53);
   --ease-in-cubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
   --ease-in-quart: cubic-bezier(0.895, 0.03, 0.685, 0.22);
@@ -52,12 +36,24 @@
 }
 
 @layer base {
+  html,
+  body {
+    min-height: 100vh;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+
   html {
     /* scroll-padding-top: var(--height-header); */
   }
 
   body {
-    /* background-color: var(--color-background);
-    color: var(--color-foreground); */
+    @apply text-foreground bg-background overflow-x-hidden text-base;
+
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -ms-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
   }
 }

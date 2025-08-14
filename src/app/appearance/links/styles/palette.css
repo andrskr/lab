@@ -1,0 +1,46 @@
+:root {
+  --ds-palette-background: oklch(1 0 0);
+  --ds-palette-foreground: oklch(0.145 0 0);
+
+  --ds-palette-primary: oklch(0.205 0 0);
+  --ds-palette-primary-foreground: oklch(0.985 0 0);
+
+  --ds-palette-subtle: oklch(0.97 0 0);
+  --ds-palette-subtle-foreground: oklch(0.205 0 0);
+
+  --ds-palette-muted: oklch(0.97 0 0);
+  --ds-palette-muted-foreground: oklch(0.556 0 0);
+
+  --ds-palette-accent: oklch(0.97 0 0);
+  --ds-palette-accent-foreground: oklch(0.205 0 0);
+
+  @media (prefers-color-scheme: dark) {
+    --ds-palette-background: oklch(0.145 0 0);
+    --ds-palette-foreground: oklch(0.985 0 0);
+
+    --ds-palette-primary: oklch(0.922 0 0);
+    --ds-palette-primary-foreground: oklch(0.205 0 0);
+
+    --ds-palette-subtle: oklch(0.269 0 0);
+    --ds-palette-subtle-foreground: oklch(0.985 0 0);
+
+    --ds-palette-muted: oklch(0.269 0 0);
+    --ds-palette-muted-foreground: oklch(0.708 0 0);
+
+    --ds-palette-accent: oklch(0.371 0 0);
+    --ds-palette-accent-foreground: oklch(0.985 0 0);
+  }
+}
+
+@theme inline {
+  --color-background: var(--ds-palette-background);
+  --color-foreground: var(--ds-palette-foreground);
+  --color-primary: var(--ds-palette-primary);
+  --color-primary-foreground: var(--ds-palette-primary-foreground);
+  --color-subtle: var(--ds-palette-subtle);
+  --color-subtle-foreground: var(--ds-palette-subtle-foreground);
+  --color-muted: var(--ds-palette-muted);
+  --color-muted-foreground: var(--ds-palette-muted-foreground);
+  --color-accent: var(--ds-palette-accent);
+  --color-accent-foreground: var(--ds-palette-accent-foreground);
+}
