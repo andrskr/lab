@@ -14,26 +14,30 @@ const DEFAULT_SIZE = 'medium';
 
 const buttonStyles = cva({
   base: [
-    'ease-out-quad inline-flex cursor-pointer items-center justify-center gap-x-2 rounded-md border font-medium outline outline-0 outline-offset-2 outline-(--button-bg) transition-colors focus-visible:outline-2',
+    'ease-out-quad inline-flex cursor-pointer items-center justify-center gap-x-2 rounded-md border font-medium outline outline-0 outline-offset-2 outline-(--button-bg) transition-colors focus-visible:outline-2 disabled:cursor-not-allowed disabled:opacity-50',
   ],
   variants: {
     variant: {
       primary: [
         '[--button-bg:var(--color-primary)]',
         '[--button-fg:var(--color-primary-foreground)]',
-        'inset-shadow-primary-foreground/20 hover:inset-shadow-primary-foreground/30 active:inset-shadow-primary-foreground/20',
+        'inset-shadow-primary-foreground/20 enabled:hover:inset-shadow-primary-foreground/30 active:inset-shadow-primary-foreground/20',
       ],
     },
     appearance: {
       solid: [
         'border-(--button-bg) bg-(--button-bg) text-(--button-fg) inset-shadow-sm inset-ring inset-ring-(--button-bg)',
-        'hover:border-(--button-bg)/92 hover:bg-(--button-bg)/92',
+        'enabled:hover:border-(--button-bg)/92 enabled:hover:bg-(--button-bg)/92',
         'focus-visible:border-(--button-bg)/92 focus-visible:bg-(--button-bg)/92',
         'active:border-(--button-bg) active:bg-(--button-bg)',
       ],
       outline: null,
       plain: null,
-      soft: ['bg-(--button-bg)/10', 'hover:bg-(--button-bg)/15', 'active:bg-(--button-bg)/20'],
+      soft: [
+        'bg-(--button-bg)/10',
+        'enabled:hover:bg-(--button-bg)/15',
+        'active:bg-(--button-bg)/20',
+      ],
     },
     shape: {
       square: 'rounded-lg',
@@ -54,7 +58,7 @@ const buttonStyles = cva({
     {
       appearance: ['outline', 'plain'],
       className: [
-        'hover:bg-(--button-bg)/10',
+        'enabled:hover:bg-(--button-bg)/10',
         'active:bg-(--button-bg)/15',
         'aria-expanded:bg-(--button-bg)/10',
       ],
