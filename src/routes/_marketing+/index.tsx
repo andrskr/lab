@@ -13,10 +13,10 @@ export default function Index() {
         <ul className="list-disc pl-5">
           <li>
             <Link
-              to={href('/components/scroller/linear')}
+              to={href('/components/scroller/example')}
               className="text-blue-600 hover:underline"
             >
-              Linear
+              Example
             </Link>
           </li>
         </ul>

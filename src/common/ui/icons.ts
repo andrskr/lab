@@ -1,6 +1,7 @@
 export {
   ChevronDown,
   ChevronRight,
+  ChevronLeft,
   User,
   X,
   ArrowDown,

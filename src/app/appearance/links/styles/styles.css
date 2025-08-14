@@ -12,9 +12,7 @@
   --layout-padding-block: 1.5rem;
   --layout-padding-inline-start: max(env(safe-area-inset-left), var(--layout-padding-inline));
   --layout-padding-inline-end: max(env(safe-area-inset-right), var(--layout-padding-inline));
-  --layout-max-width: calc(
-    1920px + var(--layout-padding-inline-start) + var(--layout-padding-inline-end)
-  );
+  --layout-max-width: 1920px;
   --layout-width: 100%;
   --layout-header-height: 4.5rem;
   /* Layout End */

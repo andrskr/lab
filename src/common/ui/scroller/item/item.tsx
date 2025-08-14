@@ -37,11 +37,7 @@ export function Item(props: Item.Props) {
   const defaultProps: useRender.ElementProps<ItemComponent> = {
     [itemDataAttributes.item]: '',
     [itemDataAttributes.visible]: dataAttribute(isVisible),
-    className: cx(
-      '[scroll-snap-align:var(--scroller-item-align,start)]',
-      'grid h-full w-[300px] place-content-center border',
-      className,
-    ),
+    className: cx('[scroll-snap-align:var(--scroller-item-align,start)]', className),
   };
 
   const state = useMemo(() => ({ visible: isVisible }) satisfies Item.State, [isVisible]);
