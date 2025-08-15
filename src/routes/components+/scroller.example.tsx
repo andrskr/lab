@@ -49,7 +49,14 @@ function Card(props: Card.Props) {
 
         <div
           className={cx(
-            'absolute bottom-0 left-0 h-1/3 w-full bg-gradient-to-t from-[#313f2d]',
+            'pointer-events-none absolute bottom-0 left-0 h-1/2 w-full bg-gradient-to-t from-[#313f2d] blur-md',
+          )}
+          aria-hidden="true"
+        />
+
+        <div
+          className={cx(
+            'pointer-events-none absolute bottom-0 left-0 h-1/3 w-full bg-gradient-to-t from-[#313f2d]',
             'ease-out-quad transition-[height] duration-200',
             'group-hover:h-1/2',
           )}
