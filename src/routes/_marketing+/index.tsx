@@ -19,6 +19,11 @@ export default function Index() {
               Example
             </Link>
           </li>
+          <li>
+            <Link to={href('/components/scroller/apple')} className="text-blue-600 hover:underline">
+              Apple
+            </Link>
+          </li>
         </ul>
       </nav>
     </main>
