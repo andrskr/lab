@@ -77,7 +77,7 @@ function Card(props: Card.Props) {
   );
 }
 
-export default function ScrollerLinear() {
+export default function ScrollerExample() {
   return (
     <div>
       <div className="container">
