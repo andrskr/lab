@@ -26,7 +26,7 @@ function findTargetElement(target: NavigateTarget, options: Required<NavigateOpt
   let lastVisibleIndex = -1;
 
   for (const [index, element] of elements.entries()) {
-    const isInvisible = element.dataset.visible === undefined;
+    const isInvisible = element.dataset.intersectionRatio !== '1';
     const lastVisibleSet = lastVisible !== null;
 
     if (isInvisible && lastVisibleSet) {
@@ -84,7 +84,7 @@ function findTargetElement(target: NavigateTarget, options: Required<NavigateOpt
   return elements[effectiveIndex];
 }
 
-function scrollElement(
+function scrollToElement(
   scroller: HTMLElement,
   target: HTMLElement,
   options: Required<NavigateOptions>,
@@ -94,17 +94,22 @@ function scrollElement(
   const scrollerRect = scroller.getBoundingClientRect();
   const targetRect = target.getBoundingClientRect();
 
-  const offsetLeft = targetRect.left - scrollerRect.left + scroller.scrollLeft;
+  const scrollerStyles = getComputedStyle(scroller);
+  const paddingLeft = Number.parseFloat(scrollerStyles.paddingLeft) || 0;
+  const paddingRight = Number.parseFloat(scrollerStyles.paddingRight) || 0;
+
+  const offsetLeft = targetRect.left - scrollerRect.left + scroller.scrollLeft - paddingLeft;
+  const availableWidth = scroller.clientWidth - paddingLeft - paddingRight;
 
   let scrollTo: number;
 
   switch (align) {
     case 'center': {
-      scrollTo = offsetLeft - scroller.clientWidth / 2 + target.clientWidth / 2;
+      scrollTo = offsetLeft - availableWidth / 2 + target.clientWidth / 2;
       break;
     }
     case 'end': {
-      scrollTo = offsetLeft - scroller.clientWidth + target.clientWidth;
+      scrollTo = offsetLeft - availableWidth + target.clientWidth;
       break;
     }
     default: {
@@ -212,7 +217,9 @@ export function Root(props: Root.Props) {
       return;
     }
 
-    scrollElement(trackElement, targetElement, effectiveOptions);
+    console.log(targetElement);
+
+    scrollToElement(trackElement, targetElement, effectiveOptions);
   });
 
   const contextValue: RootContextValue = useMemo(() => {

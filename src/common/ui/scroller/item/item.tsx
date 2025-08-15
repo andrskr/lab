@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
 import { cx } from '~/common/lib/cx';
-import { dataAttribute } from '~/common/lib/dom';
 import { mergeProps } from '~/common/lib/merge-props';
 import { useInView } from '~/common/lib/use-in-view';
 import { useRender } from '~/common/lib/use-render';
@@ -22,7 +21,7 @@ export namespace Item {
 const VIEW_TOLERANCE = 0.5;
 const itemDataAttributes = {
   item: 'data-scroller-item',
-  visible: 'data-visible',
+  intersectionRatio: 'data-intersection-ratio',
 };
 
 export function Item(props: Item.Props) {
@@ -36,7 +35,7 @@ export function Item(props: Item.Props) {
   const isVisible = inView && (entry?.intersectionRatio ?? 0) > VIEW_TOLERANCE;
   const defaultProps: useRender.ElementProps<ItemComponent> = {
     [itemDataAttributes.item]: '',
-    [itemDataAttributes.visible]: dataAttribute(isVisible),
+    [itemDataAttributes.intersectionRatio]: entry?.intersectionRatio ?? 0,
     className: cx('[scroll-snap-align:var(--scroller-item-align,start)]', className),
   };
 
