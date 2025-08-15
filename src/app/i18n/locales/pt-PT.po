@@ -13,6 +13,14 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/routes/components+/scroller.example.tsx:93
+msgid "Go to next"
+msgstr ""
+
+#: src/routes/components+/scroller.example.tsx:89
+msgid "Go to previous"
+msgstr ""
+
 #: src/routes/$.tsx:4
 #: src/routes/$.tsx:8
 msgid "Not found"
