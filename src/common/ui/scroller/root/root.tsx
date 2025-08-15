@@ -20,69 +20,66 @@ function findTargetElement(target: NavigateTarget, options: Required<NavigateOpt
     return null;
   }
 
-  let firstVisible: HTMLElement | null = null;
-  let lastVisible: HTMLElement | null = null;
-  let firstVisibleIndex = -1;
-  let lastVisibleIndex = -1;
+  // Find all visible elements with their intersection ratios
+  const visibleElements = Array.from(elements)
+    .map((element, index) => ({
+      element,
+      index,
+      intersectionRatio: Number.parseFloat(element.dataset.intersectionRatio ?? '0'),
+    }))
+    .filter((item) => item.intersectionRatio > 0);
 
-  for (const [index, element] of elements.entries()) {
-    const intersectionRatio = Number.parseFloat(element.dataset.intersectionRatio ?? '0');
-    const isInvisible = intersectionRatio === 0;
-
-    const lastVisibleSet = lastVisible !== null;
-
-    if (isInvisible && lastVisibleSet) {
-      /** There is no point in continuing the loop if we already found all visible elements */
-      break;
-    }
-
-    if (isInvisible) {
-      continue;
-    }
-
-    if (firstVisible === null) {
-      firstVisible = element;
-      firstVisibleIndex = index;
-    }
-
-    lastVisible = element;
-    lastVisibleIndex = index;
+  if (visibleElements.length === 0) {
+    return null;
   }
 
-  const visibleCount = firstVisible ? lastVisibleIndex - firstVisibleIndex + 1 : 0;
+  // Find the maximum intersection ratio among visible elements
+  const maxIntersectionRatio = Math.max(...visibleElements.map((item) => item.intersectionRatio));
 
-  /** If only one visible and targeting start/end, switch to previous/next */
+  // Find first and last elements with the maximum intersection ratio
+  const mostVisibleElements = visibleElements.filter(
+    (item) => item.intersectionRatio === maxIntersectionRatio,
+  );
+
+  const firstMostVisible = mostVisibleElements.at(0)!;
+  const lastMostVisible = mostVisibleElements.at(-1)!;
+
+  // If only one most visible element and targeting start/end, switch to previous/next
   let effectiveTarget = target;
-  if (visibleCount === 1 && (target === 'start' || target === 'end') && sibling === 0) {
+  if (
+    mostVisibleElements.length === 1 &&
+    (target === 'start' || target === 'end') &&
+    sibling === 0
+  ) {
     effectiveTarget = target === 'start' ? 'previous' : 'next';
   }
 
-  let targetIndex: number | null = null;
+  // Determine target index
+  let targetIndex: number;
   switch (effectiveTarget) {
     case 'start': {
-      targetIndex = firstVisibleIndex;
+      targetIndex = firstMostVisible.index;
       break;
     }
     case 'end': {
-      targetIndex = lastVisibleIndex;
+      targetIndex = lastMostVisible.index;
       break;
     }
     case 'next': {
-      targetIndex = lastVisibleIndex + 1;
+      targetIndex = lastMostVisible.index + 1;
       break;
     }
     case 'previous': {
-      targetIndex = firstVisibleIndex - 1;
+      targetIndex = firstMostVisible.index - 1;
       break;
     }
     default: {
-      targetIndex = firstVisibleIndex;
+      targetIndex = firstMostVisible.index;
       break;
     }
   }
 
   const effectiveIndex = clamp(targetIndex + sibling, 0, elements.length - 1);
-
   return elements[effectiveIndex];
 }
 
