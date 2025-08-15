@@ -8,4 +8,5 @@ export {
   ArrowRight,
   ArrowLeft,
   Heart,
+  Plus,
 } from 'lucide-react';
