@@ -28,23 +28,21 @@ function Card(props: Card.Props) {
   return (
     <Link
       className={cx(
-        'group ease-out-quad relative isolate flex aspect-405/740 w-[405px] cursor-pointer flex-col justify-between overflow-hidden rounded-[28px] p-8 text-left no-underline outline-offset-2',
+        'group ease-out-quad relative isolate flex aspect-405/740 w-[405px] transform-gpu cursor-pointer flex-col justify-between overflow-hidden rounded-[28px] p-8 text-left no-underline outline-offset-2 transition-transform hover:[scale:1.014_1]',
         className,
       )}
       {...restProps}
     >
-      <div className="absolute inset-0 -z-1">
-        <img
-          src={placeholder}
-          alt=""
-          crossOrigin="anonymous"
-          loading="lazy"
-          width="336"
-          height="469"
-          decoding="async"
-          className="size-full object-cover"
-        />
-      </div>
+      <img
+        src={placeholder}
+        alt=""
+        crossOrigin="anonymous"
+        loading="lazy"
+        width="336"
+        height="469"
+        decoding="async"
+        className="absolute inset-0 -z-1 size-full transform-gpu object-cover transition-transform group-hover:[scale:1_1.014]"
+      />
 
       <div className="flex flex-col gap-2 text-white">
         <h3>{title}</h3>
