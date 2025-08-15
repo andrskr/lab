@@ -29,40 +29,40 @@ function Card(props: Card.Props) {
   return (
     <Link
       className={cx(
-        'bg-subtle ease-out-quad relative isolate flex aspect-336/469 w-[336px] cursor-pointer flex-col justify-between overflow-hidden rounded-[30px] px-6 py-8 text-left no-underline outline-offset-2 transition-[filter] duration-200 hover:brightness-105',
-        'after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:border-1 after:border-gray-200',
+        'group bg-subtle ease-out-quad relative isolate flex aspect-336/469 w-[336px] cursor-pointer flex-col justify-between overflow-hidden rounded-[30px] px-6 py-8 text-left no-underline outline-offset-2 transition-[filter] duration-200 hover:brightness-105',
         className,
       )}
       {...restProps}
     >
       <div className="text-7xl text-white">{count}</div>
       <div className="absolute inset-0 -z-1">
+        <img
+          src={placeholder}
+          alt=""
+          crossOrigin="anonymous"
+          loading="lazy"
+          width="336"
+          height="469"
+          decoding="async"
+          className="size-full object-cover"
+        />
+
         <div
           className={cx(
-            'relative [--fade-color:--alpha(var(--color-background)/83%)]',
-            'before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(0deg,_var(--fade-color)_0,_transparent_66.52%)]',
-            'h-full w-full',
+            'absolute bottom-0 left-0 h-1/3 w-full bg-gradient-to-t from-[#313f2d]',
+            'ease-out-quad transition-[height] duration-200',
+            'group-hover:h-1/2',
           )}
-        >
-          <img
-            src={placeholder}
-            alt=""
-            crossOrigin="anonymous"
-            loading="lazy"
-            width="336"
-            height="469"
-            decoding="async"
-            className="h-full w-full object-cover"
-          />
-        </div>
+          aria-hidden="true"
+        />
       </div>
 
       <div className="flex items-end justify-between gap-5">
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 text-white">
           <h3 className="text-xs">{title}</h3>
           <p className="text-sm text-balance">{description}</p>
         </div>
-        <Button appearance="outline" shape="circle" render={<div />}>
+        <Button className="text-white" appearance="outline" shape="circle" render={<div />}>
           <Icon render={<ChevronRight />} />
         </Button>
       </div>
