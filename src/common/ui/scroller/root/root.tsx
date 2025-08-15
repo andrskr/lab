@@ -26,7 +26,9 @@ function findTargetElement(target: NavigateTarget, options: Required<NavigateOpt
   let lastVisibleIndex = -1;
 
   for (const [index, element] of elements.entries()) {
-    const isInvisible = element.dataset.intersectionRatio !== '1';
+    const intersectionRatio = Number.parseFloat(element.dataset.intersectionRatio ?? '0');
+    const isInvisible = intersectionRatio === 0;
+
     const lastVisibleSet = lastVisible !== null;
 
     if (isInvisible && lastVisibleSet) {
