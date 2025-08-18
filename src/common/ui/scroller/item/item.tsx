@@ -36,7 +36,7 @@ export function Item(props: Item.Props) {
   const defaultProps: useRender.ElementProps<ItemComponent> = {
     [itemDataAttributes.item]: '',
     [itemDataAttributes.intersectionRatio]: entry?.intersectionRatio ?? 0,
-    className: cx('[scroll-snap-align:var(--scroller-item-align,start)]', className),
+    className: cx('w-max [scroll-snap-align:var(--scroller-item-align,start)]', className),
   };
 
   const state = useMemo(() => ({ visible: isVisible }) satisfies Item.State, [isVisible]);

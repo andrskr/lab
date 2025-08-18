@@ -24,6 +24,11 @@ export default function Index() {
               Apple
             </Link>
           </li>
+          <li>
+            <Link to={href('/components/scroller/links')} className="text-blue-600 hover:underline">
+              Links
+            </Link>
+          </li>
         </ul>
       </nav>
     </main>
