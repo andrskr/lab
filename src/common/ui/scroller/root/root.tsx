@@ -133,7 +133,7 @@ export function Root(props: Root.Props) {
   const { children } = props;
 
   const [trackElement, setTrackElement] = useState<HTMLElement | null>(null);
-  const [canGoToNext, setCanGoToNext] = useState(true);
+  const [canGoToNext, setCanGoToNext] = useState(false);
   const [canGoToPrevious, setCanGoToPrevious] = useState(false);
   const nextTrigger = useRef<HTMLElement>(null);
   const previousTrigger = useRef<HTMLElement>(null);
