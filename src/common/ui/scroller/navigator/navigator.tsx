@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { dataAttribute } from '~/common/lib/dom';
 import { mergeProps } from '~/common/lib/merge-props';
@@ -12,7 +12,11 @@ import { useRootContext } from '../root/root-context';
 type NavigatorComponent = typeof Button;
 
 export namespace Navigator {
-  export interface Props extends useRender.ComponentProps<NavigatorComponent> {
+  export interface State {
+    enabled: boolean;
+  }
+
+  export interface Props extends useRender.ComponentProps<NavigatorComponent, State> {
     target: NavigateTarget;
     options?: NavigateOptions;
   }
@@ -33,14 +37,19 @@ export function Navigator(props: Navigator.Props) {
     navigate(latestTarget.current, latestOptions.current);
   }, [navigate, latestTarget, latestOptions]);
 
+  const isEnabled = !disabled;
+
   const defaultProps: useRender.ElementProps<NavigatorComponent> = {
     onClick: handleClick,
     disabled,
-    [navigatorDataAttributes.enabled]: dataAttribute(!disabled),
+    [navigatorDataAttributes.enabled]: dataAttribute(isEnabled),
   };
+
+  const state = useMemo(() => ({ enabled: isEnabled }) satisfies Navigator.State, [isEnabled]);
 
   const element = useRender({
     render,
+    state,
     props: mergeProps<NavigatorComponent>(defaultProps, restProps),
   });
 
