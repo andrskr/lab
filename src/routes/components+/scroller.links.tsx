@@ -3,6 +3,7 @@ import { Link as RouterLink } from 'react-router';
 
 import { cx } from '~/common/lib/cx';
 import { Button } from '~/common/ui/button';
+import { Fader } from '~/common/ui/fader';
 import { Icon } from '~/common/ui/icon';
 import {
   Radio,
@@ -90,13 +91,17 @@ export default function ScrollerLinks() {
     <div className="container">
       <h2 className="pt-4 pb-7 text-2xl font-bold">Overlay Scroller with Fade</h2>
       <Scroller.Root>
-        <Scroller.Track variant="normal">
-          {items.map((current) => (
-            <Scroller.Item key={current.id}>
-              <Link to="." label={current.label} icon={current.icon} />
-            </Scroller.Item>
-          ))}
-        </Scroller.Track>
+        <div className="relative">
+          <Scroller.Track variant="normal">
+            {items.map((current) => (
+              <Scroller.Item key={current.id}>
+                <Link to="." label={current.label} icon={current.icon} />
+              </Scroller.Item>
+            ))}
+          </Scroller.Track>
+          <Fader side="left" stop="50%" blur="4px" />
+          <Fader side="right" stop="50%" blur="4px" />
+        </div>
       </Scroller.Root>
     </div>
   );
