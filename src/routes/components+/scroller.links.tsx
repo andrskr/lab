@@ -1,3 +1,4 @@
+import { t } from '@lingui/core/macro';
 import type { ComponentProps, ReactElement } from 'react';
 import { Link as RouterLink } from 'react-router';
 
@@ -16,6 +17,8 @@ import {
   Rss,
   ScanFace,
   ShieldPlus,
+  ChevronLeft,
+  ChevronRight,
 } from '~/common/ui/icons';
 import { Scroller } from '~/common/ui/scroller';
 
@@ -91,7 +94,7 @@ export default function ScrollerLinks() {
     <div className="container">
       <h2 className="pt-4 pb-7 text-2xl font-bold">Overlay Scroller with Fade</h2>
       <Scroller.Root>
-        <div className="relative">
+        <div className="group relative">
           <Scroller.Track variant="normal">
             {items.map((current) => (
               <Scroller.Item key={current.id}>
@@ -99,8 +102,54 @@ export default function ScrollerLinks() {
               </Scroller.Item>
             ))}
           </Scroller.Track>
-          <Fader side="left" stop="50%" blur="4px" />
-          <Fader side="right" stop="50%" blur="4px" />
+
+          <Scroller.Previous
+            render={(props: Scroller.Previous.Props, state: Scroller.Previous.State) => (
+              <div
+                style={{ '--opacity': state.enabled ? 1 : 0 }}
+                className="ease-out-quad absolute top-0 bottom-0 left-0 h-full opacity-(--opacity) transition-opacity duration-200"
+              >
+                <Fader side="left" width={150} stop="85%" blur="4px" />
+                <Button
+                  {...props}
+                  className={cx(
+                    props.className,
+                    'invisible absolute top-1/2 left-0 -translate-y-1/2 disabled:pointer-events-none',
+                    'group-hover:visible',
+                  )}
+                  appearance="solid"
+                  shape="circle"
+                  size="small"
+                >
+                  <Icon aria-label={t`Go to previous`} render={<ChevronLeft />} />
+                </Button>
+              </div>
+            )}
+          />
+
+          <Scroller.Next
+            render={(props: Scroller.Next.Props, state: Scroller.Next.State) => (
+              <div
+                style={{ '--opacity': state.enabled ? 1 : 0 }}
+                className="ease-out-quad absolute top-0 right-0 bottom-0 opacity-(--opacity) transition-opacity duration-200"
+              >
+                <Fader side="right" width={150} stop="50%" blur="4px" />
+                <Button
+                  {...props}
+                  className={cx(
+                    props.className,
+                    'invisible absolute top-1/2 right-0 -translate-y-1/2 disabled:pointer-events-none',
+                    'group-hover:visible',
+                  )}
+                  appearance="solid"
+                  shape="circle"
+                  size="small"
+                >
+                  <Icon aria-label={t`Go to next`} render={<ChevronRight />} />
+                </Button>
+              </div>
+            )}
+          />
         </div>
       </Scroller.Root>
     </div>

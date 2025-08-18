@@ -6,6 +6,8 @@ import { useRootContext } from '../root/root-context';
 import { Navigator } from './navigator';
 
 export namespace Previous {
+  export interface State extends Navigator.State {}
+
   export interface Props extends SetOptional<Navigator.Props, 'target'> {}
 }
 
