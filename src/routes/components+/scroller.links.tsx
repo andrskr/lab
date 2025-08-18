@@ -95,7 +95,7 @@ export default function ScrollerLinks() {
       <h2 className="pt-4 pb-7 text-2xl font-bold">Overlay Scroller with Fade</h2>
       <Scroller.Root>
         <div className="group relative">
-          <Scroller.Track variant="normal">
+          <Scroller.Track variant="normal" className="[--scroller-items-gutter:theme(spacing.3)]">
             {items.map((current) => (
               <Scroller.Item key={current.id}>
                 <Link to="." label={current.label} icon={current.icon} />
