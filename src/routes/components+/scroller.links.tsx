@@ -1,4 +1,3 @@
-import { t } from '@lingui/core/macro';
 import type { ComponentProps, ReactElement } from 'react';
 import { Link as RouterLink } from 'react-router';
 
@@ -121,7 +120,7 @@ export default function ScrollerLinks() {
                   shape="circle"
                   size="small"
                 >
-                  <Icon aria-label={t`Go to previous`} render={<ChevronLeft />} />
+                  <Icon aria-label="Go to previous" render={<ChevronLeft />} />
                 </Button>
               </div>
             )}
@@ -145,7 +144,7 @@ export default function ScrollerLinks() {
                   shape="circle"
                   size="small"
                 >
-                  <Icon aria-label={t`Go to next`} render={<ChevronRight />} />
+                  <Icon aria-label="Go to next" render={<ChevronRight />} />
                 </Button>
               </div>
             )}

@@ -1,4 +1,3 @@
-import { t } from '@lingui/core/macro';
 import type { ComponentProps } from 'react';
 import { Link } from 'react-router';
 
@@ -79,7 +78,7 @@ export default function ScrollerApple() {
             appearance="soft"
             shape="circle"
           >
-            <Icon aria-label={t`Go to previous`} render={<ChevronLeft />} />
+            <Icon aria-label="Go to previous" render={<ChevronLeft />} />
           </Scroller.Previous>
 
           <Scroller.Next
@@ -88,7 +87,7 @@ export default function ScrollerApple() {
             appearance="soft"
             shape="circle"
           >
-            <Icon aria-label={t`Go to next`} render={<ChevronRight />} />
+            <Icon aria-label="Go to next" render={<ChevronRight />} />
           </Scroller.Next>
         </div>
       </Scroller.Root>

@@ -1,4 +1,3 @@
-import { t } from '@lingui/core/macro';
 import type { ComponentProps } from 'react';
 import { Link } from 'react-router';
 
@@ -94,11 +93,11 @@ export default function ScrollerExample() {
 
         <div className="flex justify-center gap-4 py-2">
           <Scroller.Previous appearance="soft" shape="circle" size="large">
-            <Icon aria-label={t`Go to previous`} render={<ChevronLeft />} />
+            <Icon aria-label="Go to previous" render={<ChevronLeft />} />
           </Scroller.Previous>
 
           <Scroller.Next appearance="soft" shape="circle" size="large">
-            <Icon aria-label={t`Go to next`} render={<ChevronRight />} />
+            <Icon aria-label="Go to next" render={<ChevronRight />} />
           </Scroller.Next>
         </div>
       </Scroller.Root>
