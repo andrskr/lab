@@ -19,4 +19,5 @@ export {
   ShieldPlus,
   QrCode,
   Rss,
+  Loader,
 } from 'lucide-react';

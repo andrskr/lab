@@ -31,6 +31,17 @@ export default function Index() {
           </li>
         </ul>
       </nav>
+
+      <nav className="py-4">
+        <h2 className="text-lg font-semibold">Buttons</h2>
+        <ul className="list-disc pl-5">
+          <li>
+            <Link to={href('/components/button/pending')} className="text-blue-600 hover:underline">
+              Pending
+            </Link>
+          </li>
+        </ul>
+      </nav>
     </main>
   );
 }

@@ -7,16 +7,18 @@ import { useRender } from '../lib/use-render';
 
 type IconElement = LucideIcon;
 
-type IconProps = SetRequired<useRender.ComponentProps<IconElement>, 'render'>;
+export namespace Icon {
+  export interface Props extends SetRequired<useRender.ComponentProps<IconElement>, 'render'> {}
+}
 
-export const IconContext = createContext<Omit<IconProps, 'render'>>({});
+export const IconContext = createContext<Omit<Icon.Props, 'render'>>({});
 IconContext.displayName = 'IconContext';
 
 const iconDataAttributes = {
   slot: 'data-slot',
 };
 
-export function Icon(props: IconProps) {
+export function Icon(props: Icon.Props) {
   const context = use(IconContext);
 
   const {
