@@ -124,7 +124,7 @@ export default function ScrollerExample() {
           {activeCard ? (
             <Dialog.Portal keepMounted>
               <Dialog.Backdrop
-                className="bg-subtle/15 fixed inset-0 backdrop-blur-xl"
+                className="bg-subtle/90 fixed inset-0"
                 render={
                   <motion.div
                     initial={{
