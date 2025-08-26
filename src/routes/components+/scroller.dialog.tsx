@@ -26,8 +26,7 @@ export namespace Card {
   }
 }
 
-const MotionTitle = motion(Dialog.Title);
-const MotionDescription = motion(Dialog.Description);
+const MotionButton = motion.create(Button);
 
 function Card(props: Card.Props) {
   const { className, count, title, description, ...restProps } = props;
@@ -43,6 +42,19 @@ function Card(props: Card.Props) {
       )}
       {...restProps}
     >
+      <MotionButton
+        aria-hidden="true"
+        layoutId={`close-${String(count)}`}
+        className="absolute top-6 right-6"
+        appearance="soft"
+        shape="circle"
+        style={{
+          opacity: 0,
+        }}
+      >
+        <Icon aria-label="Close dialog" render={<X />} />
+      </MotionButton>
+
       <motion.div
         layout="position"
         layoutId={`count-${String(count)}`}
@@ -171,17 +183,21 @@ export default function ScrollerExample() {
                 }
               >
                 <ScrollArea.Root className="h-full">
-                  <ScrollArea.Viewport className="h-full outline-none" tabIndex={-1}>
+                  <ScrollArea.Viewport
+                    className="h-full overscroll-none outline-none"
+                    tabIndex={-1}
+                  >
                     <ScrollArea.Content>
                       <Dialog.Close
                         render={
-                          <Button
-                            className="absolute top-4 right-4"
+                          <MotionButton
+                            layoutId={`close-${String(activeCard.count)}`}
+                            className="absolute top-6 right-6"
                             appearance="soft"
                             shape="circle"
                           >
                             <Icon aria-label="Close dialog" render={<X />} />
-                          </Button>
+                          </MotionButton>
                         }
                       />
 
@@ -191,7 +207,6 @@ export default function ScrollerExample() {
                           src={placeholder}
                           alt=""
                           crossOrigin="anonymous"
-                          loading="lazy"
                           width="336"
                           height="469"
                           decoding="async"
@@ -207,18 +222,26 @@ export default function ScrollerExample() {
                             {activeCard.count}
                           </motion.div>
                           <div className="text-shadow-foreground text-shadow-xs">
-                            <MotionTitle
-                              layoutId={`title-${String(activeCard.count)}`}
-                              className="pb-2 text-sm text-balance"
+                            <Dialog.Title
+                              render={
+                                <motion.h2
+                                  layoutId={`title-${String(activeCard.count)}`}
+                                  className="pb-2 text-sm text-balance"
+                                />
+                              }
                             >
                               {activeCard.title}
-                            </MotionTitle>
-                            <MotionDescription
-                              layoutId={`description-${String(activeCard.count)}`}
-                              className="text-xl leading-snug text-pretty"
+                            </Dialog.Title>
+                            <Dialog.Description
+                              render={
+                                <motion.p
+                                  layoutId={`description-${String(activeCard.count)}`}
+                                  className="text-xl leading-snug text-pretty"
+                                />
+                              }
                             >
                               {activeCard.description}
-                            </MotionDescription>
+                            </Dialog.Description>
                           </div>
                         </div>
                       </div>
@@ -271,7 +294,7 @@ export default function ScrollerExample() {
                   </ScrollArea.Viewport>
                   <ScrollArea.Scrollbar
                     className={cx(
-                      'ease-out-quad z-scrollbar bg-primary/20 mx-1.5 mt-8 mb-1 flex w-1 justify-center rounded-md opacity-0 transition-opacity',
+                      'ease-out-quad z-scrollbar bg-primary/20 mx-2 mt-8 mb-1 flex w-1 justify-center rounded-md opacity-0 transition-opacity',
                       'data-hovering:opacity-100 data-hovering:delay-0 data-hovering:duration-75',
                       'data-scrolling:opacity-100 data-scrolling:delay-0 data-scrolling:duration-75',
                       'before:absolute before:h-full before:w-5',
