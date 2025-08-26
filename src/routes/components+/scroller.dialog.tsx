@@ -1,7 +1,7 @@
 import { Dialog, ScrollArea } from '@base-ui-components/react';
 import { AnimatePresence, motion } from 'motion/react';
 import type { ComponentProps } from 'react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import type { IterableElement } from 'type-fest';
 
 import { cx } from '~/common/lib/cx';
@@ -19,7 +19,7 @@ const items = Array.from({ length: 20 }, (_, index) => index).map((current) => (
 }));
 
 export namespace Card {
-  export interface Props extends Omit<ComponentProps<typeof motion.div>, 'children'> {
+  export interface Props extends Omit<ComponentProps<typeof motion.button>, 'children'> {
     count: number;
     title: string;
     description: string;
@@ -30,8 +30,10 @@ const MotionButton = motion.create(Button);
 
 function Card(props: Card.Props) {
   const { className, count, title, description, ...restProps } = props;
+
   return (
-    <motion.div
+    <motion.button
+      tabIndex={0}
       layoutId={`card-${String(count)}`}
       style={{
         borderRadius: '30px',
@@ -43,6 +45,7 @@ function Card(props: Card.Props) {
       {...restProps}
     >
       <MotionButton
+        tabIndex={-1}
         aria-hidden="true"
         layoutId={`close-${String(count)}`}
         className="absolute top-6 right-6"
@@ -51,6 +54,7 @@ function Card(props: Card.Props) {
         style={{
           opacity: 0,
         }}
+        render={<div />}
       >
         <Icon aria-label="Close dialog" render={<X />} />
       </MotionButton>
@@ -105,12 +109,13 @@ function Card(props: Card.Props) {
           <Icon render={<Plus />} />
         </Button>
       </div>
-    </motion.div>
+    </motion.button>
   );
 }
 
 export default function ScrollerExample() {
   const [activeCard, setActiveCard] = useState<IterableElement<typeof items> | null>(null);
+  const currentTrigger = useRef<HTMLButtonElement>(null);
 
   return (
     <div>
@@ -125,7 +130,8 @@ export default function ScrollerExample() {
             <Scroller.Item key={current.count}>
               <Card
                 {...current}
-                onClick={() => {
+                onClick={(event) => {
+                  currentTrigger.current = event.currentTarget;
                   setActiveCard(current);
                 }}
               />
@@ -166,6 +172,7 @@ export default function ScrollerExample() {
                 }
               />
               <Dialog.Popup
+                finalFocus={currentTrigger}
                 render={
                   <motion.div
                     layoutId={`card-${String(activeCard.count)}`}
