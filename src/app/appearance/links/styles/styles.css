@@ -59,6 +59,16 @@
   margin-inline: auto;
 }
 
+@utility stack {
+  display: grid;
+  grid-template-columns: [stack] 100%;
+  grid-template-rows: [stack] 100%;
+
+  > * {
+    grid-area: stack;
+  }
+}
+
 @layer base {
   html,
   body {

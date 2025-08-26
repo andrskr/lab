@@ -29,6 +29,14 @@ export default function Index() {
               Links
             </Link>
           </li>
+          <li>
+            <Link
+              to={href('/components/scroller/dialog')}
+              className="text-blue-600 hover:underline"
+            >
+              Dialog
+            </Link>
+          </li>
         </ul>
       </nav>
 
