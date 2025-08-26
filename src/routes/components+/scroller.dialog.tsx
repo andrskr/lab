@@ -19,26 +19,40 @@ const items = Array.from({ length: 20 }, (_, index) => index).map((current) => (
 }));
 
 export namespace Card {
-  export interface Props extends Omit<ComponentProps<'div'>, 'children'> {
+  export interface Props extends Omit<ComponentProps<typeof motion.div>, 'children'> {
     count: number;
     title: string;
     description: string;
   }
 }
 
+const MotionTitle = motion(Dialog.Title);
+const MotionDescription = motion(Dialog.Description);
+
 function Card(props: Card.Props) {
   const { className, count, title, description, ...restProps } = props;
   return (
-    <div
+    <motion.div
+      layoutId={`card-${String(count)}`}
+      style={{
+        borderRadius: '30px',
+      }}
       className={cx(
-        'group bg-subtle ease-out-quad relative isolate flex aspect-336/469 w-[336px] cursor-pointer flex-col justify-between overflow-hidden rounded-[30px] px-6 py-8 text-left no-underline outline-offset-2 transition-[filter] duration-200 hover:brightness-105',
+        'group bg-subtle ease-out-quad relative isolate flex aspect-336/469 w-[336px] cursor-pointer flex-col justify-between overflow-hidden px-6 py-8 text-left no-underline outline-offset-2 transition-[filter] duration-200 hover:brightness-105',
         className,
       )}
       {...restProps}
     >
-      <div className="text-7xl text-white">{count}</div>
+      <motion.div
+        layout="position"
+        layoutId={`count-${String(count)}`}
+        className="text-7xl text-white"
+      >
+        {count}
+      </motion.div>
       <div className="absolute inset-0 -z-1">
-        <img
+        <motion.img
+          layoutId={`image-${String(count)}`}
           src={placeholder}
           alt=""
           crossOrigin="anonymous"
@@ -68,14 +82,18 @@ function Card(props: Card.Props) {
 
       <div className="flex items-end justify-between gap-5">
         <div className="flex flex-col gap-1 text-white">
-          <h3 className="text-xs">{title}</h3>
-          <p className="text-sm text-balance">{description}</p>
+          <motion.h3 layoutId={`title-${String(count)}`} className="text-xs">
+            {title}
+          </motion.h3>
+          <motion.p layoutId={`description-${String(count)}`} className="text-sm text-balance">
+            {description}
+          </motion.p>
         </div>
         <Button className="text-white" appearance="outline" shape="circle" render={<div />}>
           <Icon render={<Plus />} />
         </Button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -136,15 +154,19 @@ export default function ScrollerExample() {
                 }
               />
               <Dialog.Popup
-                className="bg-background inset-ring-subtle fixed inset-[5vh_0_0_0] mx-auto max-w-[760px] overflow-hidden rounded-tl-4xl rounded-tr-4xl shadow-2xl inset-ring-1 outline-none"
                 render={
                   <motion.div
+                    layoutId={`card-${String(activeCard.count)}`}
+                    className="bg-background inset-ring-subtle fixed inset-[5vh_0_0_0] mx-auto max-w-[760px] overflow-hidden shadow-2xl inset-ring-1 outline-none"
                     initial={{
                       opacity: 0,
-                      scale: 0.99,
                     }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.99 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    style={{
+                      borderTopLeftRadius: '32px',
+                      borderTopRightRadius: '32px',
+                    }}
                   />
                 }
               >
@@ -164,7 +186,8 @@ export default function ScrollerExample() {
                       />
 
                       <div className="stack aspect-square">
-                        <img
+                        <motion.img
+                          layoutId={`image-${String(activeCard.count)}`}
                           src={placeholder}
                           alt=""
                           crossOrigin="anonymous"
@@ -176,16 +199,26 @@ export default function ScrollerExample() {
                         />
 
                         <div className="px-layout-inline py-layout-block flex flex-col justify-between text-white">
-                          <div className="text-shadow-foreground pb-6 text-7xl text-shadow-xs">
+                          <motion.div
+                            layout="position"
+                            layoutId={`count-${String(activeCard.count)}`}
+                            className="text-shadow-foreground text-7xl text-shadow-xs"
+                          >
                             {activeCard.count}
-                          </div>
+                          </motion.div>
                           <div className="text-shadow-foreground text-shadow-xs">
-                            <Dialog.Title className="pb-2 text-sm text-balance">
+                            <MotionTitle
+                              layoutId={`title-${String(activeCard.count)}`}
+                              className="pb-2 text-sm text-balance"
+                            >
                               {activeCard.title}
-                            </Dialog.Title>
-                            <Dialog.Description className="text-xl leading-snug text-pretty">
+                            </MotionTitle>
+                            <MotionDescription
+                              layoutId={`description-${String(activeCard.count)}`}
+                              className="text-xl leading-snug text-pretty"
+                            >
                               {activeCard.description}
-                            </Dialog.Description>
+                            </MotionDescription>
                           </div>
                         </div>
                       </div>
