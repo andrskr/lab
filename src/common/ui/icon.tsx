@@ -19,18 +19,19 @@ const iconDataAttributes = {
 };
 
 export function Icon(props: Icon.Props) {
+  const { render, ...restProps } = props;
   const context = use(IconContext);
 
   const {
     'aria-label': ariaLabel,
     'aria-hidden': ariaHidden,
-    ...restProps
-  } = mergeProps<IconElement>(context, props);
+    ...mergedProps
+  } = mergeProps<IconElement>(context, restProps);
 
   const element = useRender({
-    render: props.render,
+    render,
     ref: context.ref,
-    props: mergeProps<IconElement>(restProps, {
+    props: mergeProps<IconElement>(mergedProps, {
       focusable: 'false',
       'aria-label': ariaLabel,
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
